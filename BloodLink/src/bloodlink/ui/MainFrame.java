@@ -6,6 +6,8 @@ package bloodlink.ui;
 
 import bloodlink.model.User;
 import bloodlink.model.enums.UserRole;
+import bloodlink.ui.hospital.*;
+import bloodlink.ui.bloodbank.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,6 +31,7 @@ import java.awt.*;
  * The sidebar buttons and content panels are populated
  * based on the logged-in user's role.
  */
+
 public class MainFrame extends JFrame {
 
     private User currentUser;
@@ -112,11 +115,10 @@ public class MainFrame extends JFrame {
                 addNavButton("My Requests", "myRequests");
                 addNavButton("Confirm Receipt", "confirmReceipt");
 
-                // Placeholder panels — we will replace these in Phase 5
-                contentPanel.add(createPlaceholder("Manage Patients"), "patients");
-                contentPanel.add(createPlaceholder("Create Blood Request"), "createRequest");
-                contentPanel.add(createPlaceholder("My Requests & Status"), "myRequests");
-                contentPanel.add(createPlaceholder("Confirm Receipt of Shipments"), "confirmReceipt");
+                contentPanel.add(new NursePatientPanel(currentUser), "patients");
+                contentPanel.add(new NurseCreateRequestPanel(currentUser), "createRequest");
+                contentPanel.add(new NurseMyRequestsPanel(currentUser), "myRequests");
+                contentPanel.add(new NurseConfirmReceiptPanel(currentUser), "confirmReceipt");
                 break;
 
             case HOSPITAL_ADMIN:
