@@ -62,8 +62,3 @@ public class DBConnection {
         }
     }
 }
-
-public static void main(String[] args) {
-    Connection conn = DBConnection.getConnection();
-    System.out.println(conn != null ? "SUCCESS" : "FAILED");
-}
