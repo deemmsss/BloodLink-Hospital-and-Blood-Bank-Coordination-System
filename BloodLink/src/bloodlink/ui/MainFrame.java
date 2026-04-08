@@ -31,7 +31,6 @@ import java.awt.*;
  * The sidebar buttons and content panels are populated
  * based on the logged-in user's role.
  */
-
 public class MainFrame extends JFrame {
 
     private User currentUser;
@@ -123,26 +122,22 @@ public class MainFrame extends JFrame {
 
             case HOSPITAL_ADMIN:
                 addNavButton("Manage Nurses", "manageNurses");
-                addNavButton("All Requests", "allRequests");
-                addNavButton("Escalate Request", "escalate");
+                addNavButton("All Requests / Escalate", "escalate");
                 addNavButton("Blood Usage Report", "usageReport");
 
-                contentPanel.add(createPlaceholder("Manage Nurse Accounts"), "manageNurses");
-                contentPanel.add(createPlaceholder("All Blood Requests"), "allRequests");
-                contentPanel.add(createPlaceholder("Escalate / Prioritize Requests"), "escalate");
-                contentPanel.add(createPlaceholder("Hospital-Wide Blood Usage"), "usageReport");
+                contentPanel.add(new AdminManageNursesPanel(), "manageNurses");
+                contentPanel.add(new AdminEscalatePanel(), "escalate");
+                contentPanel.add(new AdminUsageReportPanel(), "usageReport");
                 break;
 
             case BLOOD_BANK_TECHNICIAN:
                 addNavButton("Request Queue", "requestQueue");
-                addNavButton("Process Request", "processRequest");
                 addNavButton("Prepare Shipment", "prepareShipment");
                 addNavButton("Inventory", "inventory");
 
-                contentPanel.add(createPlaceholder("Incoming Request Queue"), "requestQueue");
-                contentPanel.add(createPlaceholder("Process Blood Requests"), "processRequest");
-                contentPanel.add(createPlaceholder("Prepare & Confirm Shipment"), "prepareShipment");
-                contentPanel.add(createPlaceholder("View Inventory Levels"), "inventory");
+                contentPanel.add(new TechRequestQueuePanel(currentUser), "requestQueue");
+                contentPanel.add(new TechPrepareShipmentPanel(currentUser), "prepareShipment");
+                contentPanel.add(new TechInventoryPanel(), "inventory");
                 break;
 
             case BLOOD_BANK_ADMIN:
@@ -152,11 +147,11 @@ public class MainFrame extends JFrame {
                 addNavButton("Request Overview", "requestOverview");
                 addNavButton("Inventory", "inventory");
 
-                contentPanel.add(createPlaceholder("Manage Technician Accounts"), "manageTechs");
-                contentPanel.add(createPlaceholder("Manage Donor Records"), "manageDonors");
-                contentPanel.add(createPlaceholder("Set Inventory Thresholds"), "thresholds");
-                contentPanel.add(createPlaceholder("Request Overview"), "requestOverview");
-                contentPanel.add(createPlaceholder("View Inventory Levels"), "inventory");
+                contentPanel.add(new BBAdminManageTechsPanel(), "manageTechs");
+                contentPanel.add(new BBAdminManageDonorsPanel(), "manageDonors");
+                contentPanel.add(new BBAdminThresholdsPanel(), "thresholds");
+                contentPanel.add(new BBAdminRequestOverviewPanel(), "requestOverview");
+                contentPanel.add(new TechInventoryPanel(), "inventory");
                 break;
         }
 
