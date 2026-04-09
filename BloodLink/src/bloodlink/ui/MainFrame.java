@@ -109,11 +109,13 @@ public class MainFrame extends JFrame {
 
         switch (role) {
             case HOSPITAL_NURSE:
+                addNavButton("Home", "home");
                 addNavButton("My Patients", "patients");
                 addNavButton("Create Blood Request", "createRequest");
                 addNavButton("My Requests", "myRequests");
                 addNavButton("Confirm Receipt", "confirmReceipt");
 
+                contentPanel.add(new NurseDashboardPanel(currentUser), "home");
                 contentPanel.add(new NursePatientPanel(currentUser), "patients");
                 contentPanel.add(new NurseCreateRequestPanel(currentUser), "createRequest");
                 contentPanel.add(new NurseMyRequestsPanel(currentUser), "myRequests");
@@ -121,32 +123,38 @@ public class MainFrame extends JFrame {
                 break;
 
             case HOSPITAL_ADMIN:
+                addNavButton("Home", "home");
                 addNavButton("Manage Nurses", "manageNurses");
                 addNavButton("All Requests / Escalate", "escalate");
                 addNavButton("Blood Usage Report", "usageReport");
 
+                contentPanel.add(new AdminDashboardPanel(currentUser), "home");
                 contentPanel.add(new AdminManageNursesPanel(), "manageNurses");
                 contentPanel.add(new AdminEscalatePanel(), "escalate");
                 contentPanel.add(new AdminUsageReportPanel(), "usageReport");
                 break;
 
             case BLOOD_BANK_TECHNICIAN:
+                addNavButton("Home", "home");
                 addNavButton("Request Queue", "requestQueue");
                 addNavButton("Prepare Shipment", "prepareShipment");
                 addNavButton("Inventory", "inventory");
 
+                contentPanel.add(new TechDashboardPanel(currentUser), "home");
                 contentPanel.add(new TechRequestQueuePanel(currentUser), "requestQueue");
                 contentPanel.add(new TechPrepareShipmentPanel(currentUser), "prepareShipment");
                 contentPanel.add(new TechInventoryPanel(), "inventory");
                 break;
 
             case BLOOD_BANK_ADMIN:
+                addNavButton("Home", "home");
                 addNavButton("Manage Technicians", "manageTechs");
                 addNavButton("Manage Donors", "manageDonors");
                 addNavButton("Inventory Thresholds", "thresholds");
                 addNavButton("Request Overview", "requestOverview");
                 addNavButton("Inventory", "inventory");
 
+                contentPanel.add(new BBAdminDashboardPanel(currentUser), "home");
                 contentPanel.add(new BBAdminManageTechsPanel(), "manageTechs");
                 contentPanel.add(new BBAdminManageDonorsPanel(), "manageDonors");
                 contentPanel.add(new BBAdminThresholdsPanel(), "thresholds");
@@ -154,6 +162,9 @@ public class MainFrame extends JFrame {
                 contentPanel.add(new TechInventoryPanel(), "inventory");
                 break;
         }
+
+        // Show the Home dashboard by default
+        cardLayout.show(contentPanel, "home");
 
         // ── Logout button at the bottom of the sidebar ──
         sidebarPanel.add(Box.createVerticalGlue()); // Pushes logout to the bottom
