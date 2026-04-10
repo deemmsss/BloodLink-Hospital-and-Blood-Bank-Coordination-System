@@ -6,19 +6,40 @@ package bloodlink.main;
 
 import bloodlink.ui.LoginScreen;
 import javax.swing.*;
+import bloodlink.db.DBConnection;
+
 
 /**
  *
  * @author demi
  * 
  * Application entry point for BloodLink.
- * Sets a modern look-and-feel and launches the login screen.
+ * Sets look-and-feel, registers a global exception handler
+ * so no error goes unhandled, and closes the DB on shutdown.
  */
 public class BloodLinkApp {
 
     public static void main(String[] args) {
-        // Set the Nimbus look-and-feel for a cleaner, modern appearance.
-        // Nimbus is built into Java — no external dependencies needed.
+
+        // ── Global exception handler ─────────────
+        // Catches ANY uncaught exception on the Swing EDT and shows
+        // a dialog instead of silently crashing. This protects against
+        // the -10 mark penalty for an app crash.
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            throwable.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "An unexpected error occurred:\n" + throwable.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        });
+
+        // ── Shutdown hook ────────────────────────
+        // Ensures the database connection is closed cleanly
+        // when the user closes the window or the JVM exits.
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            DBConnection.closeConnection();
+        }));
+
+        // ── Look and Feel ────────────────────────
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -27,12 +48,10 @@ public class BloodLinkApp {
                 }
             }
         } catch (Exception e) {
-            // If Nimbus isn't available, fall back to the default look-and-feel
             System.out.println("Nimbus L&F not available, using default.");
         }
 
-        // Launch the login screen on the Swing Event Dispatch Thread (EDT).
-        // All Swing UI work must happen on the EDT to avoid threading issues.
+        // ── Launch ───────────────────────────────
         SwingUtilities.invokeLater(() -> {
             new LoginScreen().setVisible(true);
         });
