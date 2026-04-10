@@ -16,8 +16,7 @@ Hospitals and blood banks need to coordinate blood unit requests during emergenc
 | UI Framework      | Java Swing (Nimbus Look & Feel)     |
 | Database          | MySQL 8.0 (Docker-hosted)           |
 | DB Connectivity   | JDBC — MySQL Connector/J            |
-| IDE               | Apache NetBeans                     |
-| Diagrams          | PlantUML                            |
+| IDE               | Apache NetBeans                     |                           |
 | Version Control   | Git + GitHub                        |
 
 ## Enterprises & Roles
